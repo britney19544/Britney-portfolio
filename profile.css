@@ -1,0 +1,333 @@
+  :root{
+    --black:        #0e0d0c;   /* darkroom base, true near-black */
+    --paper:        #ede9e3;   /* light-table paper */
+    --paper-dim:    #b8b3a9;   /* secondary text on black */
+    --safelight:    #a8322a;   /* film-leader red, the one accent */
+    --amber:        #c99a4a;   /* light-table amber, used sparingly */
+    --rule:         rgba(237,233,227,0.14);
+    --rule-strong:  rgba(237,233,227,0.28);
+
+    --serif:  'Fraunces', Georgia, serif;
+    --mono:   'JetBrains Mono', ui-monospace, monospace;
+    --sans:   'Inter', -apple-system, sans-serif;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--black);
+    color:var(--paper);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; }
+  }
+  ::selection{ background:var(--safelight); color:var(--paper); }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  /* ============================================================
+     SPROCKET STRIP — decorative film edge, used top/bottom of sheet rows
+     ============================================================ */
+  .sprockets{
+    display:flex;
+    justify-content:space-between;
+    padding:0 6px;
+    height:14px;
+    align-items:center;
+  }
+  .sprockets span{
+    width:6px; height:6px;
+    border-radius:1px;
+    background:var(--black);
+    opacity:0.5;
+  }
+
+  /* ============================================================
+     NAV
+     ============================================================ */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:22px 5vw;
+    background:var(--black);
+    border-bottom:1px solid var(--paper);
+  }
+  .logo{
+    font-family:var(--mono);
+    font-size:13px;
+    text-decoration:none;
+    letter-spacing:0.02em;
+  }
+  nav ul{
+    list-style:none; display:flex; gap:28px; margin:0; padding:0;
+    font-family:var(--mono); font-size:13px;
+  }
+  nav a{ text-decoration:none; opacity:0.85; }
+  nav a:hover{ opacity:1; }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    min-height:110svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 5vw;
+    position:relative;
+  }
+  .hero-frame-no{
+    position:absolute;
+    top:120px;
+    left:5vw;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--paper-dim);
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:300;
+    font-style:italic;
+    font-size:clamp(2.6rem, 9vw, 7.2rem);
+    line-height:0.98;
+    margin:0;
+    max-width:16ch;
+    /* one orchestrated reveal: clip-path sweep on load */
+    clip-path:inset(0 100% 0 0);
+    animation:reveal 1.4s cubic-bezier(.65,0,.15,1) 0.2s forwards;
+  }
+  @keyframes reveal{ to{ clip-path:inset(0 0 0 0); } }
+
+  .hero-sub{
+    margin-top:10px;
+    max-width:46ch;
+    font-size:1.05rem;
+    text-align: justify;
+    line-height:1.6;
+    color:var(--paper-dim);
+    opacity:0;
+    animation:fadeIn 1s ease 1.1s forwards;
+  }
+  @keyframes fadeIn{ to{ opacity:1; } }
+
+  .hero-meta{
+    margin-top:56px;
+    display:flex;
+    gap:48px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--paper-dim);
+    opacity:0;
+    animation:fadeIn 1s ease 1.4s forwards;
+  }
+  .hero-meta strong{ color:var(--paper); display:block; font-size:13px; margin-bottom:4px; }
+
+  /* ============================================================
+     CONTACT SHEET — the portfolio grid
+     ============================================================ */
+  .sheet-section{ padding:100px 5vw 60px; }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    border-bottom:1px solid var(--rule-strong);
+    padding-bottom:20px;
+    margin-bottom:6px;
+  }
+  .section-head h2{
+    font-family:var(--serif);
+    font-weight:400;
+    font-style:italic;
+    font-size:2.2rem;
+    margin:0;
+  }
+  .section-head span{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--paper-dim);
+  }
+
+  .sheet-row + .sheet-row{ margin-top:2px; }
+  .sheet{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+  }
+  .frame{
+    position:relative;
+    aspect-ratio:3/2;
+    overflow:hidden;
+    border:1px solid var(--rule);
+    cursor:pointer;
+  }
+  .frame img{
+    width:100%; height:100%; object-fit:cover;
+    filter:grayscale(1) contrast(1.05) brightness(0.92);
+    transform:scale(1.01);
+    transition:filter .6s ease, transform 5s cubic-bezier(.2,.6,.2,1);
+  }
+  .frame:hover img{
+    filter:grayscale(0) contrast(1.05) brightness(1);
+    transform:scale(1.06);
+  }
+  .frame-tag{
+    position:absolute; left:10px; bottom:8px;
+    font-family:var(--mono); font-size:11px;
+    color:var(--paper);
+    text-shadow:0 1px 4px rgba(0,0,0,0.8);
+    display:flex; align-items:baseline; gap:6px;
+  }
+  .frame-tag .no{ color:var(--safelight); }
+  .frame-title{
+    position:absolute; right:10px; top:8px;
+    font-family:var(--sans); font-size:11px;
+    color:var(--paper-dim);
+    opacity:0; transition:opacity .3s ease;
+  }
+  .frame:hover .frame-title{ opacity:1; }
+
+  /* ============================================================
+     ABOUT
+     ============================================================ */
+  .about{
+    padding:120px 5vw;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:80px;
+    border-top:1px solid var(--rule-strong);
+    position:relative;
+  }
+
+  .about-copy p{
+    font-size:1.1rem;
+    line-height:1.7;
+    text-align: justify;
+    color:var(--paper-dim);
+    max-width:52ch;
+    margin-top: -10px;
+  }
+  .about-copy p:first-child{ color:var(--paper); font-size:1.3rem; }
+.about-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 0px solid var(--rule);
+}
+
+.about-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid white;
+  filter: grayscale(1) contrast(1.05) brightness(0.9);
+}
+
+  .stats{
+    margin-top:44px;
+    display:flex;
+    gap:56px;
+    font-family:var(--mono);
+  }
+  .stats div strong{
+    display:block; font-family:var(--serif); font-style:italic;
+    font-size:2.4rem; font-weight:400; color:var(--paper);
+  }
+  .stats div span{ font-size:11px; color:var(--paper-dim); }
+
+  /* ============================================================
+     CONTACT / FOOTER
+     ============================================================ */
+  .contact{
+    padding:120px 5vw 60px;
+    border-top:1px solid var(--rule-strong);
+  }
+  .contact h2{
+    font-family:var(--serif); font-style:italic; font-weight:300;
+    font-size:clamp(2rem, 6vw, 4.5rem);
+    margin:0 0 32px;
+    max-width:16ch;
+  }
+  .contact-link{
+    display:inline-flex; align-items:center; gap:14px;
+    font-family:var(--mono); font-size:14px;
+    text-decoration:none;
+    padding:16px 0;
+    border-top:1px solid var(--rule);
+    width:100%;
+    justify-content:space-between;
+  }
+  .contact-links{ border-bottom:1px solid var(--rule); }
+  .contact-link:hover{ color:var(--safelight); }
+  .contact-link:hover .arrow{ transform:translateX(4px); }
+  .arrow{ transition:transform .25s ease; }
+
+  footer{
+    display:flex; justify-content:space-between;
+    padding:28px 5vw 40px;
+    font-family:var(--mono); font-size:11px;
+    color:var(--paper-dim);
+  }
+
+  /* ============================================================
+     LIGHTBOX
+     ============================================================ */
+  .lightbox{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(14,13,12,0.97);
+    display:flex; align-items:center; justify-content:center;
+    padding:6vw;
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .lightbox.open{ opacity:1; pointer-events:auto; }
+  .lightbox img{
+    max-height:88vh; max-width:88vw;
+    object-fit:contain;
+    box-shadow:0 30px 80px rgba(0,0,0,0.6);
+  }
+  .lightbox-close{
+    position:absolute; top:28px; right:5vw;
+    font-family:var(--mono); font-size:13px;
+    background:none; border:1px solid var(--rule-strong);
+    color:var(--paper); padding:8px 14px; cursor:pointer;
+  }
+  .lightbox-close:hover{ border-color:var(--safelight); color:var(--safelight); }
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width:900px){
+    .sheet{ grid-template-columns:repeat(2, 1fr); }
+    .about{ grid-template-columns:1fr; gap:40px; }
+    nav ul{ gap:16px; }
+    .hero-meta{ flex-wrap:wrap; gap:28px; }
+  }
+  @media (max-width:520px){
+    nav ul{ display:none; }
+  }
+
+  /* keyboard focus visibility */
+  a:focus-visible, button:focus-visible, .frame:focus-visible{
+    outline:2px solid var(--safelight);
+    outline-offset:3px;
+  }
+
+.typewriter::after {
+  content: "|";
+  animation: blink 0.7s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
