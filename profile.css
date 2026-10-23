@@ -56,12 +56,19 @@
     background:var(--black);
     border-bottom:1px solid var(--paper);
   }
-  .logo{
-    font-family:var(--mono);
-    font-size:13px;
-    text-decoration:none;
-    letter-spacing:0.02em;
-  }
+ nav, header {          /* use whatever your nav bar's selector is */
+  height: 70px;        /* locks the bar size */
+  display: flex;
+  align-items: center;
+  padding-left: 50px; 
+}
+
+.logo-img {
+  height: 110px;       /* as big as you want */
+  width: auto;
+  margin: -25px 0; 
+      /* pulls the extra size back so the bar doesn't grow */
+}
   nav ul{
     list-style:none; display:flex; gap:28px; margin:0; padding:0;
     font-family:var(--mono); font-size:13px;
